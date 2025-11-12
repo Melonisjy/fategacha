@@ -1,40 +1,45 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FortuneGrade } from '@/lib/fortuneData'
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FortuneGrade } from "@/lib/fortuneData";
 
 interface GradeReactionProps {
-  grade: FortuneGrade
-  show: boolean
-  onComplete: () => void
+  grade: FortuneGrade;
+  show: boolean;
+  onComplete: () => void;
 }
 
 interface Particle {
-  id: number
-  x: number
-  y: number
-  delay: number
-  duration: number
-  emoji: string
-  xOffset: number
-  yOffset: number
+  id: number;
+  x: number;
+  y: number;
+  delay: number;
+  duration: number;
+  emoji: string;
+  xOffset: number;
+  yOffset: number;
 }
 
-export default function GradeReaction({ grade, show, onComplete }: GradeReactionProps) {
-  const [particles, setParticles] = useState<Particle[]>([])
+export default function GradeReaction({
+  grade,
+  show,
+  onComplete,
+}: GradeReactionProps) {
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
     if (show) {
-      const particleCount = grade === 'divine' ? 100 : grade === 'special' ? 50 : 20
-      const emojis = 
-        grade === 'divine' 
-          ? ['🎉', '✨', '🎊', '⭐', '🌟', '💫', '🔥', '⚡', '💎', '👑']
-          : grade === 'special'
-          ? ['✨', '⭐', '💫', '💖', '🌟', '🎁']
-          : ['✨', '💫']
+      const particleCount =
+        grade === "divine" ? 100 : grade === "special" ? 50 : 20;
+      const emojis =
+        grade === "divine"
+          ? ["🎉", "✨", "🎊", "⭐", "🌟", "💫", "🔥", "⚡", "💎", "👑"]
+          : grade === "special"
+          ? ["✨", "⭐", "💫", "💖", "🌟", "🎁"]
+          : ["✨", "💫"];
 
-      const newParticles: Particle[] = []
+      const newParticles: Particle[] = [];
       for (let i = 0; i < particleCount; i++) {
         newParticles.push({
           id: i,
@@ -45,18 +50,21 @@ export default function GradeReaction({ grade, show, onComplete }: GradeReaction
           emoji: emojis[Math.floor(Math.random() * emojis.length)],
           xOffset: (Math.random() - 0.5) * 200,
           yOffset: -100 - Math.random() * 100,
-        })
+        });
       }
-      setParticles(newParticles)
+      setParticles(newParticles);
 
-      const timer = setTimeout(() => {
-        onComplete()
-        setParticles([])
-      }, grade === 'divine' ? 3000 : grade === 'special' ? 2000 : 1500)
+      const timer = setTimeout(
+        () => {
+          onComplete();
+          setParticles([]);
+        },
+        grade === "divine" ? 3000 : grade === "special" ? 2000 : 1500
+      );
 
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     }
-  }, [show, grade, onComplete])
+  }, [show, grade, onComplete]);
 
   return (
     <AnimatePresence>
@@ -73,23 +81,23 @@ export default function GradeReaction({ grade, show, onComplete }: GradeReaction
             initial={{ opacity: 0, scale: 0.5, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.5 }}
-            transition={{ 
+            transition={{
               type: "spring",
               stiffness: 200,
               damping: 15,
               delay: 0.2,
             }}
             className={`text-4xl md:text-5xl font-bold drop-shadow-2xl ${
-              grade === 'divine' 
-                ? 'text-yellow-300' 
-                : grade === 'special' 
-                ? 'text-pink-300' 
-                : 'text-purple-200'
+              grade === "divine"
+                ? "text-yellow-300"
+                : grade === "special"
+                ? "text-pink-300"
+                : "text-purple-200"
             }`}
           >
-            {grade === 'divine' && '🎉 신의 예언! 🎉'}
-            {grade === 'special' && '⭐ 특별한 예언! ⭐'}
-            {grade === 'normal' && '💫 평범한 예언 💫'}
+            {grade === "divine" && "🎉 신의 예언! 🎉"}
+            {grade === "special" && "⭐ 특별한 예언! ⭐"}
+            {grade === "normal" && "💫 평범한 예언 💫"}
           </motion.div>
 
           {/* 파티클 효과 */}
@@ -116,7 +124,7 @@ export default function GradeReaction({ grade, show, onComplete }: GradeReaction
               transition={{
                 delay: particle.delay,
                 duration: particle.duration,
-                ease: 'easeOut',
+                ease: "easeOut",
               }}
             >
               {particle.emoji}
@@ -125,6 +133,5 @@ export default function GradeReaction({ grade, show, onComplete }: GradeReaction
         </motion.div>
       )}
     </AnimatePresence>
-  )
+  );
 }
-
