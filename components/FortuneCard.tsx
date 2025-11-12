@@ -384,7 +384,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
               <AnimatePresence mode="wait">
                 <motion.p
                   key={slotMachineText || fortune.event}
-                  className={`${gradeConfig.color} text-3xl md:text-4xl font-black leading-relaxed text-center min-h-[120px] flex items-center justify-center tracking-tight`}
+                  className={`${gradeConfig.color} text-[26px] font-black leading-relaxed text-center min-h-[120px] flex items-center justify-center tracking-tight`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{
                     opacity: 1,

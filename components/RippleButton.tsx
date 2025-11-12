@@ -1,52 +1,57 @@
-'use client'
+"use client";
 
-import { useState, useRef, MouseEvent } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useRef, MouseEvent } from "react";
+import { motion } from "framer-motion";
 
 interface RippleButtonProps {
-  children: React.ReactNode
-  onClick?: () => void
-  className?: string
-  type?: 'button' | 'submit'
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+  type?: "button" | "submit";
+  disabled?: boolean;
 }
 
-export default function RippleButton({ 
-  children, 
-  onClick, 
-  className = '',
-  type = 'button'
+export default function RippleButton({
+  children,
+  onClick,
+  className = "",
+  type = "button",
+  disabled = false,
 }: RippleButtonProps) {
-  const [ripples, setRipples] = useState<Array<{ x: number; y: number; id: number }>>([])
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const [ripples, setRipples] = useState<
+    Array<{ x: number; y: number; id: number }>
+  >([]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    if (!buttonRef.current) return
+    if (!buttonRef.current || disabled) return;
 
-    const rect = buttonRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    const rect = buttonRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const newRipple = {
       x,
       y,
       id: Date.now(),
-    }
+    };
 
-    setRipples((prev) => [...prev, newRipple])
+    setRipples((prev) => [...prev, newRipple]);
 
     // 리플 제거
     setTimeout(() => {
-      setRipples((prev) => prev.filter((ripple) => ripple.id !== newRipple.id))
-    }, 600)
+      setRipples((prev) => prev.filter((ripple) => ripple.id !== newRipple.id));
+    }, 600);
 
-    onClick?.()
-  }
+    onClick?.();
+  };
 
   return (
     <button
       ref={buttonRef}
       type={type}
       onClick={handleClick}
+      disabled={disabled}
       className={`relative overflow-hidden ${className}`}
     >
       {ripples.map((ripple) => (
@@ -58,8 +63,8 @@ export default function RippleButton({
             height: 0,
             left: ripple.x,
             top: ripple.y,
-            x: '-50%',
-            y: '-50%',
+            x: "-50%",
+            y: "-50%",
           }}
           animate={{
             width: 300,
@@ -68,12 +73,11 @@ export default function RippleButton({
           }}
           transition={{
             duration: 0.6,
-            ease: 'easeOut',
+            ease: "easeOut",
           }}
         />
       ))}
       <span className="relative z-10">{children}</span>
     </button>
-  )
+  );
 }
-
