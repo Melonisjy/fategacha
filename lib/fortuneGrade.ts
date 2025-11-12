@@ -18,9 +18,11 @@ export const gradeConfigs: Record<FortuneGrade, GradeConfig> = {
     icon: "💎",
     color: "text-cyan-300",
     textColor: "cyan-300",
-    bgGradient: "from-cyan-400/40 via-blue-400/30 via-purple-400/30 to-pink-400/40",
+    bgGradient:
+      "from-cyan-400/40 via-blue-400/30 via-purple-400/30 to-pink-400/40",
     borderColor: "border-cyan-300/60",
-    glowColor: "shadow-[0_0_50px_rgba(34,211,238,0.8),0_0_100px_rgba(147,51,234,0.6)]",
+    glowColor:
+      "shadow-[0_0_50px_rgba(34,211,238,0.8),0_0_100px_rgba(147,51,234,0.6)]",
     dividerColor: "cyan-300",
     particleCount: 50,
   },

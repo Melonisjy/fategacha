@@ -39,23 +39,29 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
         setSlotMachineText(events[randomIndex].text);
         currentIndex++;
 
-      // 일정 횟수 후 실제 결과로 변경
-      const maxIterations =
-        fortune.grade === "legendary"
-          ? 20
-          : fortune.grade === "divine"
-          ? 15
-          : fortune.grade === "special"
-          ? 10
-          : 5;
-      if (currentIndex > maxIterations) {
-        if (interval) clearInterval(interval);
-        setSlotMachineText(fortune.event);
-        setShowContent(true);
-      }
-    },
-    fortune.grade === "legendary" ? 80 : fortune.grade === "divine" ? 100 : fortune.grade === "special" ? 120 : 150
-  );
+        // 일정 횟수 후 실제 결과로 변경
+        const maxIterations =
+          fortune.grade === "legendary"
+            ? 20
+            : fortune.grade === "divine"
+            ? 15
+            : fortune.grade === "special"
+            ? 10
+            : 5;
+        if (currentIndex > maxIterations) {
+          if (interval) clearInterval(interval);
+          setSlotMachineText(fortune.event);
+          setShowContent(true);
+        }
+      },
+      fortune.grade === "legendary"
+        ? 80
+        : fortune.grade === "divine"
+        ? 100
+        : fortune.grade === "special"
+        ? 120
+        : 150
+    );
 
     return () => {
       if (interval) clearInterval(interval);
@@ -149,8 +155,18 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: fortune.grade === "legendary" ? 0.15 : fortune.grade === "divine" ? 0.2 : 0.3,
-        delayChildren: fortune.grade === "legendary" ? 0.6 : fortune.grade === "divine" ? 0.4 : 0.2,
+        staggerChildren:
+          fortune.grade === "legendary"
+            ? 0.15
+            : fortune.grade === "divine"
+            ? 0.2
+            : 0.3,
+        delayChildren:
+          fortune.grade === "legendary"
+            ? 0.6
+            : fortune.grade === "divine"
+            ? 0.4
+            : 0.2,
       },
     },
   };
@@ -166,7 +182,12 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
       y: 0,
       scale: 1,
       transition: {
-        duration: fortune.grade === "legendary" ? 1.0 : fortune.grade === "divine" ? 0.8 : 0.6,
+        duration:
+          fortune.grade === "legendary"
+            ? 1.0
+            : fortune.grade === "divine"
+            ? 0.8
+            : 0.6,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -211,7 +232,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-yellow-300">✨ 신의 예언</span>
-                  <span className="font-semibold">5%</span>
+                  <span className="font-semibold">4.999999%</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-pink-300">⭐ 특별한 예언</span>
@@ -242,7 +263,12 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{
-                  delay: fortune.grade === "legendary" ? 0.8 : fortune.grade === "divine" ? 0.6 : 0.3,
+                  delay:
+                    fortune.grade === "legendary"
+                      ? 0.8
+                      : fortune.grade === "divine"
+                      ? 0.6
+                      : 0.3,
                   type: "spring",
                   stiffness: 200,
                   damping: 15,
@@ -297,9 +323,9 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                       rotate: [0, 360],
                       scale: [1, 1.5, 1],
                       filter: [
-                        'drop-shadow(0 0 10px rgba(34,211,238,0.8))',
-                        'drop-shadow(0 0 20px rgba(147,51,234,0.8))',
-                        'drop-shadow(0 0 10px rgba(34,211,238,0.8))',
+                        "drop-shadow(0 0 10px rgba(34,211,238,0.8))",
+                        "drop-shadow(0 0 20px rgba(147,51,234,0.8))",
+                        "drop-shadow(0 0 10px rgba(34,211,238,0.8))",
                       ],
                     }}
                     transition={{
@@ -364,7 +390,9 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                     opacity: 1,
                     y: 0,
                     textShadow:
-                      showContent && (fortune.grade === "legendary" || fortune.grade === "divine")
+                      showContent &&
+                      (fortune.grade === "legendary" ||
+                        fortune.grade === "divine")
                         ? fortune.grade === "legendary"
                           ? [
                               "0 0 15px rgba(34,211,238,0.8)",
@@ -382,7 +410,9 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                   transition={{
                     duration: 0.2,
                     textShadow:
-                      showContent && (fortune.grade === "legendary" || fortune.grade === "divine")
+                      showContent &&
+                      (fortune.grade === "legendary" ||
+                        fortune.grade === "divine")
                         ? {
                             duration: fortune.grade === "legendary" ? 1.5 : 2,
                             repeat: Infinity,

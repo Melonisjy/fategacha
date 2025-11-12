@@ -31,10 +31,31 @@ export default function GradeReaction({
   useEffect(() => {
     if (show) {
       const particleCount =
-        grade === "legendary" ? 150 : grade === "divine" ? 100 : grade === "special" ? 50 : 20;
+        grade === "legendary"
+          ? 150
+          : grade === "divine"
+          ? 100
+          : grade === "special"
+          ? 50
+          : 20;
       const emojis =
         grade === "legendary"
-          ? ["💎", "🎉", "✨", "🎊", "⭐", "🌟", "💫", "🔥", "⚡", "🌈", "🌌", "🎆", "👑", "💍"]
+          ? [
+              "💎",
+              "🎉",
+              "✨",
+              "🎊",
+              "⭐",
+              "🌟",
+              "💫",
+              "🔥",
+              "⚡",
+              "🌈",
+              "🌌",
+              "🎆",
+              "👑",
+              "💍",
+            ]
           : grade === "divine"
           ? ["🎉", "✨", "🎊", "⭐", "🌟", "💫", "🔥", "⚡", "💎", "👑"]
           : grade === "special"
@@ -61,7 +82,13 @@ export default function GradeReaction({
           onComplete();
           setParticles([]);
         },
-        grade === "legendary" ? 4000 : grade === "divine" ? 3000 : grade === "special" ? 2000 : 1500
+        grade === "legendary"
+          ? 4000
+          : grade === "divine"
+          ? 3000
+          : grade === "special"
+          ? 2000
+          : 1500
       );
 
       return () => clearTimeout(timer);
@@ -109,7 +136,11 @@ export default function GradeReaction({
           {particles.map((particle) => (
             <motion.div
               key={particle.id}
-              className={`absolute ${grade === "legendary" ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl"}`}
+              className={`absolute ${
+                grade === "legendary"
+                  ? "text-3xl md:text-4xl"
+                  : "text-2xl md:text-3xl"
+              }`}
               style={{
                 left: `${particle.x}%`,
                 top: `${particle.y}%`,

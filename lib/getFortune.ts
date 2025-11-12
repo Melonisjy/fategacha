@@ -4,21 +4,24 @@ import { gradeConfigs } from './fortuneGrade'
 function selectEventByGrade(): { text: string; grade: FortuneGrade } {
   const random = Math.random()
   
-  // 확률 분배: 전설의 예언 0.000001%, 신의 예언 5%, 특별한 예언 25%, 평범한 예언 70%
-  if (random < 0.00000001) {
+  // 확률 분배: 전설의 예언 0.000001%, 신의 예언 4.999999%, 특별한 예언 25%, 평범한 예언 70%
+  const LEGENDARY_PROB = 0.00000001 // 0.000001%
+  const DIVINE_PROB = 0.05 - LEGENDARY_PROB // 4.999999%
+  
+  if (random < LEGENDARY_PROB) {
     // 전설의 예언 (0.000001%)
     const legendaryEvents = events.filter(e => e.grade === 'legendary')
     return legendaryEvents[Math.floor(Math.random() * legendaryEvents.length)]
-  } else if (random < 0.05) {
-    // 신의 예언
+  } else if (random < LEGENDARY_PROB + DIVINE_PROB) {
+    // 신의 예언 (4.999999%)
     const divineEvents = events.filter(e => e.grade === 'divine')
     return divineEvents[Math.floor(Math.random() * divineEvents.length)]
   } else if (random < 0.30) {
-    // 특별한 예언
+    // 특별한 예언 (25%)
     const specialEvents = events.filter(e => e.grade === 'special')
     return specialEvents[Math.floor(Math.random() * specialEvents.length)]
   } else {
-    // 평범한 예언
+    // 평범한 예언 (70%)
     const normalEvents = events.filter(e => e.grade === 'normal')
     return normalEvents[Math.floor(Math.random() * normalEvents.length)]
   }
