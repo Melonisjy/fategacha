@@ -3,9 +3,10 @@
 import { Fortune } from "@/lib/fortuneData";
 import { formatFortuneText } from "@/lib/getFortune";
 import { gradeConfigs } from "@/lib/fortuneGrade";
+import { events } from "@/lib/fortuneData";
 import { useRouter } from "next/navigation";
-import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import RippleButton from "./RippleButton";
 import ParticleEffect from "./ParticleEffect";
 import ShareButtons from "./ShareButtons";
@@ -20,8 +21,44 @@ interface FortuneCardProps {
 export default function FortuneCard({ name, fortune }: FortuneCardProps) {
   const router = useRouter();
   const [showCelebration, setShowCelebration] = useState(false);
+  const [slotMachineText, setSlotMachineText] = useState("");
+  const [showContent, setShowContent] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const gradeConfig = gradeConfigs[fortune.grade];
+
+  // 슬롯머신 효과
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    // 슬롯머신 효과 시작
+    let currentIndex = 0;
+    interval = setInterval(
+      () => {
+        // 랜덤하게 텍스트 변경
+        const randomIndex = Math.floor(Math.random() * events.length);
+        setSlotMachineText(events[randomIndex].text);
+        currentIndex++;
+
+        // 일정 횟수 후 실제 결과로 변경
+        const maxIterations =
+          fortune.grade === "divine"
+            ? 15
+            : fortune.grade === "special"
+            ? 10
+            : 5;
+        if (currentIndex > maxIterations) {
+          if (interval) clearInterval(interval);
+          setSlotMachineText(fortune.event);
+          setShowContent(true);
+        }
+      },
+      fortune.grade === "divine" ? 100 : fortune.grade === "special" ? 120 : 150
+    );
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [fortune.event, fortune.grade]);
 
   const handleShare = (platform: string) => {
     setShowCelebration(true);
@@ -40,58 +77,58 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
   // 등급별 애니메이션 설정
   const getCardAnimation = () => {
     switch (fortune.grade) {
-      case 'divine':
+      case "divine":
         return {
           initial: { opacity: 0, scale: 0.8, rotateY: -180 },
-          animate: { 
-            opacity: 1, 
-            scale: 1, 
+          animate: {
+            opacity: 1,
+            scale: 1,
             rotateY: 0,
             boxShadow: [
-              '0 0 0px rgba(251,191,36,0)',
-              '0 0 40px rgba(251,191,36,0.6)',
-              '0 0 20px rgba(251,191,36,0.4)',
+              "0 0 0px rgba(251,191,36,0)",
+              "0 0 40px rgba(251,191,36,0.6)",
+              "0 0 20px rgba(251,191,36,0.4)",
             ],
           },
-          transition: { 
+          transition: {
             duration: 0.8,
             ease: [0.22, 1, 0.36, 1],
           },
-        }
-      case 'special':
+        };
+      case "special":
         return {
           initial: { opacity: 0, scale: 0.9, y: 30 },
-          animate: { 
-            opacity: 1, 
-            scale: 1, 
+          animate: {
+            opacity: 1,
+            scale: 1,
             y: 0,
             boxShadow: [
-              '0 0 0px rgba(244,114,182,0)',
-              '0 0 30px rgba(244,114,182,0.5)',
-              '0 0 15px rgba(244,114,182,0.3)',
+              "0 0 0px rgba(244,114,182,0)",
+              "0 0 30px rgba(244,114,182,0.5)",
+              "0 0 15px rgba(244,114,182,0.3)",
             ],
           },
-          transition: { 
+          transition: {
             duration: 0.6,
             ease: [0.22, 1, 0.36, 1],
           },
-        }
+        };
       default:
         return {
           initial: { opacity: 0, scale: 0.95 },
           animate: { opacity: 1, scale: 1 },
           transition: { duration: 0.4 },
-        }
+        };
     }
-  }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: fortune.grade === 'divine' ? 0.2 : 0.3,
-        delayChildren: fortune.grade === 'divine' ? 0.4 : 0.2,
+        staggerChildren: fortune.grade === "divine" ? 0.2 : 0.3,
+        delayChildren: fortune.grade === "divine" ? 0.4 : 0.2,
       },
     },
   };
@@ -107,7 +144,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
       y: 0,
       scale: 1,
       transition: {
-        duration: fortune.grade === 'divine' ? 0.8 : 0.6,
+        duration: fortune.grade === "divine" ? 0.8 : 0.6,
         ease: [0.22, 1, 0.36, 1],
       },
     },
@@ -122,7 +159,10 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
         onComplete={() => setShowCelebration(false)}
       />
       <div className="w-full max-w-[420px] mx-auto relative" ref={cardRef}>
-        <ParticleEffect count={gradeConfig.particleCount} grade={fortune.grade} />
+        <ParticleEffect
+          count={gradeConfig.particleCount}
+          grade={fortune.grade}
+        />
         <motion.div
           className={`backdrop-blur-md rounded-2xl p-8 border-2 ${gradeConfig.borderColor} ${gradeConfig.glowColor} relative z-10 bg-gradient-to-br ${gradeConfig.bgGradient}`}
           initial={cardAnimation.initial}
@@ -140,7 +180,9 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             {/* 툴팁 */}
             <div className="absolute top-full mt-2 right-0 w-48 p-3 bg-black/90 backdrop-blur-md rounded-lg border border-white/20 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div className="text-white text-xs space-y-2">
-                <div className="font-bold text-yellow-300 mb-2">등급별 확률</div>
+                <div className="font-bold text-yellow-300 mb-2">
+                  등급별 확률
+                </div>
                 <div className="flex items-center justify-between">
                   <span className="text-yellow-300">✨ 신의 예언</span>
                   <span className="font-semibold">5%</span>
@@ -173,8 +215,8 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border ${gradeConfig.borderColor}`}
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
-                transition={{ 
-                  delay: fortune.grade === 'divine' ? 0.6 : 0.3,
+                transition={{
+                  delay: fortune.grade === "divine" ? 0.6 : 0.3,
                   type: "spring",
                   stiffness: 200,
                   damping: 15,
@@ -199,14 +241,14 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
               variants={itemVariants}
               className="flex items-center justify-center gap-3 mb-6"
             >
-              <div className={`flex items-center gap-2 ${gradeConfig.color}/80`}>
+              <div className="flex items-center gap-2 text-white/80">
                 <span className="text-sm">📅</span>
                 <span className="text-sm font-medium">
                   2026년 {fortune.month} {fortune.day}일
                 </span>
               </div>
-              <div className={`w-px h-4 ${gradeConfig.color}/30`}></div>
-              <div className={`flex items-center gap-2 ${gradeConfig.color}/80`}>
+              <div className="w-px h-4 bg-white/30"></div>
+              <div className="flex items-center gap-2 text-white/80">
                 <span className="text-sm">🕐</span>
                 <span className="text-sm font-medium">
                   {fortune.hour.toString().padStart(2, "0")}시{" "}
@@ -220,10 +262,10 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
               variants={itemVariants}
               className="flex items-center justify-center gap-2 mb-8"
             >
-              {fortune.grade === 'divine' ? (
+              {fortune.grade === "divine" ? (
                 <>
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent"></div>
-                  <motion.div 
+                  <motion.div
                     className={`${gradeConfig.color} text-lg`}
                     animate={{
                       rotate: [0, 360],
@@ -239,7 +281,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                   </motion.div>
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent"></div>
                 </>
-              ) : fortune.grade === 'special' ? (
+              ) : fortune.grade === "special" ? (
                 <>
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-pink-300/30 to-transparent"></div>
                   <div className={`${gradeConfig.color} text-lg`}>
@@ -258,28 +300,44 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
               )}
             </motion.div>
 
-            {/* 결과 문장 - 크고 강조 */}
+            {/* 결과 문장 - 크고 강조 (슬롯머신 효과) */}
             <motion.div
               variants={itemVariants}
-              className={`mt-6 pt-8 pb-8 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} backdrop-blur-sm rounded-2xl border ${gradeConfig.borderColor} ${gradeConfig.glowColor}`}
+              className={`mt-6 pt-8 pb-8 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} backdrop-blur-sm rounded-2xl border ${gradeConfig.borderColor} ${gradeConfig.glowColor} overflow-hidden`}
             >
-              <motion.p 
-                className={`${gradeConfig.color} text-2xl md:text-3xl font-bold leading-relaxed drop-shadow-lg text-center`}
-                animate={fortune.grade === 'divine' ? {
-                  textShadow: [
-                    '0 0 10px rgba(251,191,36,0.5)',
-                    '0 0 20px rgba(251,191,36,0.8)',
-                    '0 0 10px rgba(251,191,36,0.5)',
-                  ],
-                } : {}}
-                transition={fortune.grade === 'divine' ? {
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                } : {}}
-              >
-                {fortune.event}
-              </motion.p>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={slotMachineText || fortune.event}
+                  className={`${gradeConfig.color} text-2xl md:text-3xl font-bold leading-relaxed drop-shadow-lg text-center min-h-[120px] flex items-center justify-center`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    textShadow:
+                      showContent && fortune.grade === "divine"
+                        ? [
+                            "0 0 10px rgba(251,191,36,0.5)",
+                            "0 0 20px rgba(251,191,36,0.8)",
+                            "0 0 10px rgba(251,191,36,0.5)",
+                          ]
+                        : undefined,
+                  }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.2,
+                    textShadow:
+                      showContent && fortune.grade === "divine"
+                        ? {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          }
+                        : undefined,
+                  }}
+                >
+                  {slotMachineText || fortune.event}
+                </motion.p>
+              </AnimatePresence>
             </motion.div>
           </motion.div>
         </motion.div>
