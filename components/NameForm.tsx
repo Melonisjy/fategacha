@@ -41,9 +41,17 @@ export default function NameForm() {
       />
       {/* 1~10 숫자 선택 (재미 요소) */}
       <div className="mt-4">
-        <p className="text-white/80 text-sm mb-3 text-center font-medium">
-          끌리는 번호를 선택하세요
-        </p>
+        <motion.p
+          key={selectedNumber}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="text-white/80 text-sm mb-3 text-center font-medium"
+        >
+          {selectedNumber !== null
+            ? `${selectedNumber}을(를) 선택했습니다`
+            : "끌리는 번호를 선택하세요"}
+        </motion.p>
         <div className="grid grid-cols-5 gap-2">
           {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
             <motion.button
@@ -52,15 +60,50 @@ export default function NameForm() {
               onClick={() =>
                 setSelectedNumber(num === selectedNumber ? null : num)
               }
-              className={`px-4 py-3 rounded-xl font-black text-lg transition-all ${
+              className={`px-4 py-3 rounded-xl font-black text-lg transition-all relative overflow-hidden ${
                 selectedNumber === num
-                  ? "neomorphic-button text-white scale-110"
+                  ? "bg-gradient-to-br from-purple-400/40 to-pink-400/40 text-white border-2 border-white/60 shadow-[0_0_20px_rgba(255,255,255,0.3),inset_0_2px_4px_rgba(255,255,255,0.2)]"
                   : "neomorphic text-white/60 hover:text-white hover:scale-105"
               }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={selectedNumber !== num ? { scale: 1.05 } : {}}
+              whileTap={{ scale: 0.9 }}
+              animate={
+                selectedNumber === num
+                  ? {
+                      scale: 1.1,
+                      boxShadow: [
+                        "0 0 20px rgba(255,255,255,0.3), inset 0 2px 4px rgba(255,255,255,0.2)",
+                        "0 0 30px rgba(255,255,255,0.4), inset 0 2px 4px rgba(255,255,255,0.3)",
+                        "0 0 20px rgba(255,255,255,0.3), inset 0 2px 4px rgba(255,255,255,0.2)",
+                      ],
+                    }
+                  : {}
+              }
+              transition={
+                selectedNumber === num
+                  ? {
+                      boxShadow: {
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      },
+                    }
+                  : {}
+              }
             >
-              {num}
+              {selectedNumber === num && (
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              )}
+              <span className="relative z-10">{num}</span>
             </motion.button>
           ))}
         </div>
