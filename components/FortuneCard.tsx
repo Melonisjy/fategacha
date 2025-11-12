@@ -93,12 +93,6 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             scale: 1,
             rotateY: 0,
             rotateZ: 0,
-            boxShadow: [
-              "0 0 0px rgba(34,211,238,0)",
-              "0 0 60px rgba(34,211,238,0.8)",
-              "0 0 100px rgba(147,51,234,0.6)",
-              "0 0 50px rgba(34,211,238,0.8)",
-            ],
           },
           transition: {
             duration: 1.2,
@@ -112,11 +106,6 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             opacity: 1,
             scale: 1,
             rotateY: 0,
-            boxShadow: [
-              "0 0 0px rgba(251,191,36,0)",
-              "0 0 40px rgba(251,191,36,0.6)",
-              "0 0 20px rgba(251,191,36,0.4)",
-            ],
           },
           transition: {
             duration: 0.8,
@@ -130,11 +119,6 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             opacity: 1,
             scale: 1,
             y: 0,
-            boxShadow: [
-              "0 0 0px rgba(244,114,182,0)",
-              "0 0 30px rgba(244,114,182,0.5)",
-              "0 0 15px rgba(244,114,182,0.3)",
-            ],
           },
           transition: {
             duration: 0.6,
@@ -207,13 +191,14 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
           grade={fortune.grade}
         />
           <motion.div
-            className={`glassmorphism-card rounded-3xl p-8 border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} relative z-10 bg-gradient-to-br ${gradeConfig.bgGradient} dynamic-gradient`}
+            className={`glassmorphism-card rounded-3xl p-8 border-4 ${gradeConfig.borderColor} relative z-10 bg-gradient-to-br ${gradeConfig.bgGradient} dynamic-gradient`}
             initial={cardAnimation.initial}
             animate={cardAnimation.animate}
             transition={cardAnimation.transition}
             style={{
               backdropFilter: "blur(25px) saturate(180%)",
               WebkitBackdropFilter: "blur(25px) saturate(180%)",
+              boxShadow: gradeConfig.shadowLayers,
             }}
           >
           {/* 예언등급표 보기 - 카드 오른쪽 상단 */}
@@ -387,10 +372,11 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             {/* 결과 문장 - 크고 강조 (슬롯머신 효과) */}
             <motion.div
               variants={itemVariants}
-              className={`mt-6 pt-10 pb-10 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} rounded-3xl border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} overflow-hidden dynamic-gradient-rotate glassmorphism relative`}
+              className={`mt-6 pt-10 pb-10 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} rounded-3xl border-4 ${gradeConfig.borderColor} overflow-hidden dynamic-gradient-rotate glassmorphism relative`}
               style={{
                 backdropFilter: "blur(20px) saturate(180%)",
                 WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                boxShadow: gradeConfig.shadowLayers,
               }}
             >
               {/* 장식적 요소 - 별들 */}
