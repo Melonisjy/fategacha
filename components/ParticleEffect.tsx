@@ -20,6 +20,7 @@ interface ParticleEffectProps {
 }
 
 const gradeEmojis: Record<FortuneGrade, string[]> = {
+  legendary: ['💎', '✨', '⭐', '🌟', '💫', '🔥', '⚡', '🌈', '🌌', '🎆'],
   divine: ['✨', '⭐', '🌟', '💫', '🔥', '⚡'],
   special: ['✨', '⭐', '💫', '💖'],
   normal: ['✨', '💫'],
@@ -38,8 +39,8 @@ export default function ParticleEffect({ count = 20, grade = 'normal' }: Particl
         x: Math.random() * 100,
         y: Math.random() * 100,
         delay: Math.random() * 0.5,
-        duration: grade === 'divine' ? 1.5 + Math.random() * 1 : 1 + Math.random() * 1,
-        xOffset: (Math.random() - 0.5) * (grade === 'divine' ? 100 : 60),
+        duration: grade === 'legendary' ? 2 + Math.random() * 1 : grade === 'divine' ? 1.5 + Math.random() * 1 : 1 + Math.random() * 1,
+        xOffset: (Math.random() - 0.5) * (grade === 'legendary' ? 150 : grade === 'divine' ? 100 : 60),
         emoji: emojis[Math.floor(Math.random() * emojis.length)],
       })
     }
@@ -52,7 +53,7 @@ export default function ParticleEffect({ count = 20, grade = 'normal' }: Particl
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className={`absolute ${grade === 'divine' ? 'text-2xl' : grade === 'special' ? 'text-xl' : 'text-lg'}`}
+          className={`absolute ${grade === 'legendary' ? 'text-3xl' : grade === 'divine' ? 'text-2xl' : grade === 'special' ? 'text-xl' : 'text-lg'}`}
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
@@ -64,17 +65,17 @@ export default function ParticleEffect({ count = 20, grade = 'normal' }: Particl
           }}
           animate={{
             opacity: [0, 1, 1, 0],
-            scale: grade === 'divine' ? [0, 1.5, 1.5, 0] : [0, 1.2, 1.2, 0],
+            scale: grade === 'legendary' ? [0, 2, 2, 0] : grade === 'divine' ? [0, 1.5, 1.5, 0] : [0, 1.2, 1.2, 0],
             rotate: [0, 180, 360],
-            y: [0, grade === 'divine' ? -120 : -80, grade === 'divine' ? -180 : -120],
+            y: [0, grade === 'legendary' ? -150 : grade === 'divine' ? -120 : -80, grade === 'legendary' ? -220 : grade === 'divine' ? -180 : -120],
             x: [0, particle.xOffset * 0.6, particle.xOffset],
           }}
           transition={{
             delay: particle.delay,
             duration: particle.duration,
             ease: 'easeOut',
-            repeat: grade === 'divine' ? Infinity : 0,
-            repeatDelay: grade === 'divine' ? 0.5 : 0,
+            repeat: (grade === 'legendary' || grade === 'divine') ? Infinity : 0,
+            repeatDelay: (grade === 'legendary' || grade === 'divine') ? 0.5 : 0,
           }}
         >
           {particle.emoji}

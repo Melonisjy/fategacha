@@ -1,9 +1,17 @@
-export type FortuneGrade = "divine" | "special" | "normal";
+export type FortuneGrade = "legendary" | "divine" | "special" | "normal";
 
 export interface FortuneEvent {
   text: string;
   grade: FortuneGrade;
 }
+
+// 전설의 예언 (0.000001% 확률) - 극히 희귀
+const legendaryEvents: string[] = [
+  "우주가 당신을 선택한다.",
+  "시간이 멈추는 순간을 경험한다.",
+  "모든 것이 완벽하게 맞아떨어진다.",
+  "불가능한 일이 현실이 된다.",
+];
 
 // 신의 예언 (5% 확률) - 매우 희귀
 const divineEvents: string[] = [
@@ -53,6 +61,7 @@ const normalEvents: string[] = [
 ];
 
 export const events: FortuneEvent[] = [
+  ...legendaryEvents.map((text) => ({ text, grade: "legendary" as FortuneGrade })),
   ...divineEvents.map((text) => ({ text, grade: "divine" as FortuneGrade })),
   ...specialEvents.map((text) => ({ text, grade: "special" as FortuneGrade })),
   ...normalEvents.map((text) => ({ text, grade: "normal" as FortuneGrade })),

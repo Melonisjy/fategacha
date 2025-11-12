@@ -31,9 +31,11 @@ export default function GradeReaction({
   useEffect(() => {
     if (show) {
       const particleCount =
-        grade === "divine" ? 100 : grade === "special" ? 50 : 20;
+        grade === "legendary" ? 150 : grade === "divine" ? 100 : grade === "special" ? 50 : 20;
       const emojis =
-        grade === "divine"
+        grade === "legendary"
+          ? ["💎", "🎉", "✨", "🎊", "⭐", "🌟", "💫", "🔥", "⚡", "🌈", "🌌", "🎆", "👑", "💍"]
+          : grade === "divine"
           ? ["🎉", "✨", "🎊", "⭐", "🌟", "💫", "🔥", "⚡", "💎", "👑"]
           : grade === "special"
           ? ["✨", "⭐", "💫", "💖", "🌟", "🎁"]
@@ -59,7 +61,7 @@ export default function GradeReaction({
           onComplete();
           setParticles([]);
         },
-        grade === "divine" ? 3000 : grade === "special" ? 2000 : 1500
+        grade === "legendary" ? 4000 : grade === "divine" ? 3000 : grade === "special" ? 2000 : 1500
       );
 
       return () => clearTimeout(timer);
@@ -88,13 +90,16 @@ export default function GradeReaction({
               delay: 0.2,
             }}
             className={`text-4xl md:text-5xl font-bold drop-shadow-2xl ${
-              grade === "divine"
+              grade === "legendary"
+                ? "text-cyan-300"
+                : grade === "divine"
                 ? "text-yellow-300"
                 : grade === "special"
                 ? "text-pink-300"
                 : "text-purple-200"
             }`}
           >
+            {grade === "legendary" && "💎 전설의 예언! 💎"}
             {grade === "divine" && "🎉 신의 예언! 🎉"}
             {grade === "special" && "⭐ 특별한 예언! ⭐"}
             {grade === "normal" && "💫 평범한 예언 💫"}
@@ -104,7 +109,7 @@ export default function GradeReaction({
           {particles.map((particle) => (
             <motion.div
               key={particle.id}
-              className="absolute text-2xl md:text-3xl"
+              className={`absolute ${grade === "legendary" ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl"}`}
               style={{
                 left: `${particle.x}%`,
                 top: `${particle.y}%`,
@@ -116,7 +121,7 @@ export default function GradeReaction({
               }}
               animate={{
                 opacity: [0, 1, 1, 0],
-                scale: [0, 1.5, 1.5, 0],
+                scale: grade === "legendary" ? [0, 2, 2, 0] : [0, 1.5, 1.5, 0],
                 rotate: [0, 180, 360],
                 y: [0, particle.yOffset],
                 x: [0, particle.xOffset * 0.3, particle.xOffset],
