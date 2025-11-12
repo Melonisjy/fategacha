@@ -1,15 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import RippleButton from "./RippleButton";
+
+// 번호별 고유 색상
+const numberConfigs = [
+  { color: "from-yellow-400/40 to-orange-400/40" },
+  { color: "from-purple-400/40 to-pink-400/40" },
+  { color: "from-blue-400/40 to-cyan-400/40" },
+  { color: "from-green-400/40 to-emerald-400/40" },
+  { color: "from-red-400/40 to-orange-400/40" },
+  { color: "from-indigo-400/40 to-purple-400/40" },
+  { color: "from-pink-400/40 to-rose-400/40" },
+  { color: "from-slate-400/40 to-gray-400/40" },
+  { color: "from-amber-400/40 to-yellow-400/40" },
+  { color: "from-violet-400/40 to-purple-400/40" },
+];
 
 export default function NameForm() {
   const [name, setName] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+  const [ripples, setRipples] = useState<
+    Array<{ x: number; y: number; id: number; number: number }>
+  >([]);
+  const buttonRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
   const router = useRouter();
+
+  const handleNumberClick = (num: number, e: MouseEvent<HTMLButtonElement>) => {
+    const button = buttonRefs.current[num];
+    if (!button) return;
+
+    const rect = button.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // 리플 효과 생성
+    const newRipple = {
+      x,
+      y,
+      id: Date.now(),
+      number: num,
+    };
+
+    setRipples((prev) => [...prev, newRipple]);
+
+    // 리플 제거
+    setTimeout(() => {
+      setRipples((prev) => prev.filter((ripple) => ripple.id !== newRipple.id));
+    }, 600);
+
+    setSelectedNumber(num === selectedNumber ? null : num);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,59 +97,108 @@ export default function NameForm() {
             : "끌리는 번호를 선택하세요"}
         </motion.p>
         <div className="grid grid-cols-5 gap-2">
-          {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-            <motion.button
-              key={num}
-              type="button"
-              onClick={() =>
-                setSelectedNumber(num === selectedNumber ? null : num)
-              }
-              className={`px-4 py-3 rounded-xl font-black text-lg transition-all relative overflow-hidden ${
-                selectedNumber === num
-                  ? "bg-gradient-to-br from-purple-400/40 to-pink-400/40 text-white border-2 border-white/60 shadow-[0_0_20px_rgba(255,255,255,0.3),inset_0_2px_4px_rgba(255,255,255,0.2)]"
-                  : "neomorphic text-white/60 hover:text-white hover:scale-105"
-              }`}
-              whileHover={selectedNumber !== num ? { scale: 1.05 } : {}}
-              whileTap={{ scale: 0.9 }}
-              animate={
-                selectedNumber === num
-                  ? {
-                      scale: 1.1,
-                      boxShadow: [
-                        "0 0 20px rgba(255,255,255,0.3), inset 0 2px 4px rgba(255,255,255,0.2)",
-                        "0 0 30px rgba(255,255,255,0.4), inset 0 2px 4px rgba(255,255,255,0.3)",
-                        "0 0 20px rgba(255,255,255,0.3), inset 0 2px 4px rgba(255,255,255,0.2)",
-                      ],
-                    }
-                  : {}
-              }
-              transition={
-                selectedNumber === num
-                  ? {
-                      boxShadow: {
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      },
-                    }
-                  : {}
-              }
-            >
-              {selectedNumber === num && (
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              )}
-              <span className="relative z-10">{num}</span>
-            </motion.button>
-          ))}
+          {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => {
+            const config = numberConfigs[num - 1];
+            const isSelected = selectedNumber === num;
+
+            return (
+              <motion.button
+                key={num}
+                ref={(el) => {
+                  buttonRefs.current[num] = el;
+                }}
+                type="button"
+                onClick={(e) => handleNumberClick(num, e)}
+                className={`px-4 py-3 rounded-xl font-black text-lg transition-all relative overflow-hidden ${
+                  isSelected
+                    ? `bg-gradient-to-br ${config.color} text-white border-2 border-white/60 shadow-[0_0_20px_rgba(255,255,255,0.3),inset_0_2px_4px_rgba(255,255,255,0.2)]`
+                    : "neomorphic text-white/60 hover:text-white"
+                }`}
+                whileHover={
+                  !isSelected
+                    ? {
+                        scale: 1.05,
+                        rotate: [0, -2, 2, -2, 2, 0],
+                        transition: {
+                          rotate: {
+                            duration: 0.3,
+                            ease: "easeInOut",
+                          },
+                        },
+                      }
+                    : {}
+                }
+                whileTap={{ scale: 0.9 }}
+                animate={
+                  isSelected
+                    ? {
+                        scale: 1.1,
+                        boxShadow: [
+                          "0 0 20px rgba(255,255,255,0.3), inset 0 2px 4px rgba(255,255,255,0.2)",
+                          "0 0 30px rgba(255,255,255,0.4), inset 0 2px 4px rgba(255,255,255,0.3)",
+                          "0 0 20px rgba(255,255,255,0.3), inset 0 2px 4px rgba(255,255,255,0.2)",
+                        ],
+                      }
+                    : {}
+                }
+                transition={
+                  isSelected
+                    ? {
+                        boxShadow: {
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        },
+                      }
+                    : {}
+                }
+              >
+                {/* 리플 효과 */}
+                {ripples
+                  .filter((ripple) => ripple.number === num)
+                  .map((ripple) => (
+                    <motion.span
+                      key={ripple.id}
+                      className="absolute rounded-full bg-white/40"
+                      initial={{
+                        width: 0,
+                        height: 0,
+                        left: ripple.x,
+                        top: ripple.y,
+                        x: "-50%",
+                        y: "-50%",
+                      }}
+                      animate={{
+                        width: 100,
+                        height: 100,
+                        opacity: [0.6, 0],
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        ease: "easeOut",
+                      }}
+                    />
+                  ))}
+
+                {/* 반짝이는 오버레이 */}
+                {isSelected && (
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                )}
+
+                {/* 번호 */}
+                <span className="relative z-10">{num}</span>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
 
