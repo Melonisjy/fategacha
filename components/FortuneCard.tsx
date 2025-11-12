@@ -253,13 +253,13 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             initial="hidden"
             animate="visible"
           >
-            {/* 등급 배지 */}
+            {/* 등급 배지 - 카드 상단 중앙, 더 눈에 띄게 */}
             <motion.div
               variants={itemVariants}
-              className="flex items-center justify-center mb-4"
+              className="flex items-center justify-center mb-6"
             >
               <motion.div
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border ${gradeConfig.borderColor}`}
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/25 backdrop-blur-md border-2 ${gradeConfig.borderColor} shadow-lg`}
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{
@@ -274,8 +274,8 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                   damping: 15,
                 }}
               >
-                <span className="text-xl">{gradeConfig.icon}</span>
-                <span className={`${gradeConfig.color} font-bold text-sm`}>
+                <span className="text-2xl">{gradeConfig.icon}</span>
+                <span className={`${gradeConfig.color} font-black text-base`}>
                   {gradeConfig.name}
                 </span>
               </motion.div>
@@ -283,26 +283,26 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
 
             <motion.h2
               variants={itemVariants}
-              className={`${gradeConfig.color} text-3xl md:text-4xl font-black text-center mb-8 tracking-tight brutal-text`}
+              className={`${gradeConfig.color} text-3xl md:text-4xl font-black text-center mb-6 tracking-tight brutal-text`}
             >
               {name}님의 2026 운명
             </motion.h2>
 
-            {/* 날짜/시간 섹션 - 작고 세련되게 */}
+            {/* 날짜/시간 섹션 - 더 작고 세련되게 */}
             <motion.div
               variants={itemVariants}
-              className="flex items-center justify-center gap-3 mb-6"
+              className="flex items-center justify-center gap-2 mb-8"
             >
-              <div className="flex items-center gap-2 text-white/80">
-                <span className="text-sm">📅</span>
-                <span className="text-sm font-medium">
+              <div className="flex items-center gap-1.5 text-white/70">
+                <span className="text-xs">📅</span>
+                <span className="text-xs font-medium">
                   2026년 {fortune.month} {fortune.day}일
                 </span>
               </div>
-              <div className="w-px h-4 bg-white/30"></div>
-              <div className="flex items-center gap-2 text-white/80">
-                <span className="text-sm">🕐</span>
-                <span className="text-sm font-medium">
+              <div className="w-px h-3 bg-white/20"></div>
+              <div className="flex items-center gap-1.5 text-white/70">
+                <span className="text-xs">🕐</span>
+                <span className="text-xs font-medium">
                   {fortune.hour.toString().padStart(2, "0")}시{" "}
                   {fortune.minute.toString().padStart(2, "0")}분
                 </span>
@@ -379,12 +379,77 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             {/* 결과 문장 - 크고 강조 (슬롯머신 효과) */}
             <motion.div
               variants={itemVariants}
-              className={`mt-6 pt-8 pb-8 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} backdrop-blur-sm rounded-3xl border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} overflow-hidden dynamic-gradient-rotate neomorphic-inset`}
+              className={`mt-6 pt-10 pb-10 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} backdrop-blur-sm rounded-3xl border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} overflow-hidden dynamic-gradient-rotate neomorphic-inset relative`}
             >
+              {/* 장식적 요소 - 별들 */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute text-white/20"
+                    style={{
+                      left: `${(i * 12.5) % 100}%`,
+                      top: `${(i * 15) % 100}%`,
+                    }}
+                    animate={{
+                      opacity: [0.2, 0.5, 0.2],
+                      scale: [0.8, 1.2, 0.8],
+                      rotate: [0, 180, 360],
+                    }}
+                    transition={{
+                      duration: 3 + i * 0.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: i * 0.2,
+                    }}
+                  >
+                    ✨
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* 장식적 라인 - 상단 */}
+              <div className="absolute top-4 left-0 right-0 flex items-center justify-center gap-2 px-4">
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                <motion.div
+                  className="text-white/30 text-xs"
+                  animate={{
+                    rotate: [0, 360],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  ⭐
+                </motion.div>
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+              </div>
+
+              {/* 장식적 라인 - 하단 */}
+              <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2 px-4">
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                <motion.div
+                  className="text-white/30 text-xs"
+                  animate={{
+                    rotate: [0, -360],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  ✨
+                </motion.div>
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+              </div>
+
               <AnimatePresence mode="wait">
                 <motion.p
                   key={slotMachineText || fortune.event}
-                  className={`${gradeConfig.color} text-[26px] font-black leading-relaxed text-center min-h-[120px] flex items-center justify-center tracking-tight`}
+                  className={`${gradeConfig.color} text-[26px] font-black leading-relaxed text-center min-h-[120px] flex items-center justify-center tracking-tight relative z-10`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{
                     opacity: 1,
