@@ -82,7 +82,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
     }
   };
 
-  // 등급별 애니메이션 설정
+  // 등급별 애니메이션 설정 (개선된 이징 함수)
   const getCardAnimation = () => {
     switch (fortune.grade) {
       case "legendary":
@@ -96,7 +96,11 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
           },
           transition: {
             duration: 1.2,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.16, 1, 0.3, 1], // 더 부드러운 ease-out-expo
+            opacity: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+            scale: { duration: 1.2, ease: [0.34, 1.56, 0.64, 1] }, // 약간의 bounce
+            rotateY: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+            rotateZ: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
           },
         };
       case "divine":
@@ -109,7 +113,10 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
           },
           transition: {
             duration: 0.8,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.25, 0.1, 0.25, 1], // ease-in-out
+            opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+            scale: { duration: 0.8, ease: [0.34, 1.56, 0.64, 1] },
+            rotateY: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] },
           },
         };
       case "special":
@@ -122,14 +129,22 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
           },
           transition: {
             duration: 0.6,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.16, 1, 0.3, 1], // ease-out-expo
+            opacity: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+            scale: { duration: 0.6, ease: [0.34, 1.56, 0.64, 1] },
+            y: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
           },
         };
       default:
         return {
           initial: { opacity: 0, scale: 0.95 },
           animate: { opacity: 1, scale: 1 },
-          transition: { duration: 0.4 },
+          transition: {
+            duration: 0.5,
+            ease: [0.25, 0.1, 0.25, 1], // ease-in-out
+            opacity: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+            scale: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+          },
         };
     }
   };
@@ -141,16 +156,21 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
       transition: {
         staggerChildren:
           fortune.grade === "legendary"
-            ? 0.15
+            ? 0.12 // 더 세밀한 스태거
             : fortune.grade === "divine"
-            ? 0.2
-            : 0.3,
+            ? 0.15
+            : fortune.grade === "special"
+            ? 0.18
+            : 0.2,
         delayChildren:
           fortune.grade === "legendary"
-            ? 0.6
+            ? 0.5
             : fortune.grade === "divine"
-            ? 0.4
-            : 0.2,
+            ? 0.35
+            : fortune.grade === "special"
+            ? 0.25
+            : 0.15,
+        ease: [0.16, 1, 0.3, 1], // 부드러운 ease-out-expo
       },
     },
   };
@@ -168,11 +188,40 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
       transition: {
         duration:
           fortune.grade === "legendary"
-            ? 1.0
+            ? 0.9
             : fortune.grade === "divine"
-            ? 0.8
-            : 0.6,
-        ease: [0.22, 1, 0.36, 1],
+            ? 0.7
+            : fortune.grade === "special"
+            ? 0.6
+            : 0.5,
+        ease: [0.16, 1, 0.3, 1], // 개선된 ease-out-expo
+        opacity: {
+          duration:
+            fortune.grade === "legendary"
+              ? 0.7
+              : fortune.grade === "divine"
+              ? 0.5
+              : 0.4,
+          ease: [0.16, 1, 0.3, 1],
+        },
+        y: {
+          duration:
+            fortune.grade === "legendary"
+              ? 0.9
+              : fortune.grade === "divine"
+              ? 0.7
+              : 0.6,
+          ease: [0.34, 1.56, 0.64, 1], // 약간의 bounce
+        },
+        scale: {
+          duration:
+            fortune.grade === "legendary"
+              ? 0.9
+              : fortune.grade === "divine"
+              ? 0.7
+              : 0.6,
+          ease: [0.25, 0.1, 0.25, 1], // ease-in-out
+        },
       },
     },
   };

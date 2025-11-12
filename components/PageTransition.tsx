@@ -19,8 +19,10 @@ export default function PageTransition({ children }: PageTransitionProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{
-          duration: 0.3,
-          ease: [0.22, 1, 0.36, 1],
+          duration: 0.4,
+          ease: [0.16, 1, 0.3, 1], // 개선된 ease-out-expo
+          opacity: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+          y: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }, // ease-in-out
         }}
       >
         {children}

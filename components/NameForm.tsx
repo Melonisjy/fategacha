@@ -86,13 +86,14 @@ export default function NameForm() {
             : undefined,
         }}
         transition={{
-          duration: 0.2,
-          ease: "easeOut",
+          duration: 0.3,
+          ease: [0.16, 1, 0.3, 1], // 개선된 ease-out-expo
+          scale: { duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }, // ease-in-out
           boxShadow: isFocused
             ? {
                 duration: 2,
                 repeat: Infinity,
-                ease: "easeInOut",
+                ease: [0.25, 0.1, 0.25, 1], // ease-in-out
               }
             : undefined,
         }}
@@ -134,15 +135,19 @@ export default function NameForm() {
                         scale: 1.05,
                         rotate: [0, -2, 2, -2, 2, 0],
                         transition: {
+                          scale: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
                           rotate: {
                             duration: 0.3,
-                            ease: "easeInOut",
+                            ease: [0.25, 0.1, 0.25, 1], // ease-in-out
                           },
                         },
                       }
                     : {}
                 }
-                whileTap={{ scale: 0.9 }}
+                whileTap={{
+                  scale: 0.9,
+                  transition: { duration: 0.15, ease: [0.16, 1, 0.3, 1] },
+                }}
                 animate={
                   isSelected
                     ? {
@@ -158,10 +163,11 @@ export default function NameForm() {
                 transition={
                   isSelected
                     ? {
+                        scale: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }, // 약간의 bounce
                         boxShadow: {
                           duration: 1.5,
                           repeat: Infinity,
-                          ease: "easeInOut",
+                          ease: [0.25, 0.1, 0.25, 1], // ease-in-out
                         },
                       }
                     : {}
@@ -189,7 +195,10 @@ export default function NameForm() {
                       }}
                       transition={{
                         duration: 0.6,
-                        ease: "easeOut",
+                        ease: [0.16, 1, 0.3, 1], // 개선된 ease-out-expo
+                        width: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                        height: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                        opacity: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
                       }}
                     />
                   ))}

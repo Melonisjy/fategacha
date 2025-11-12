@@ -67,15 +67,38 @@ export default function Home() {
             animate={
               isVisible.title ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
             }
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.7,
+              ease: [0.16, 1, 0.3, 1], // 개선된 ease-out-expo
+              opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+              y: { duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }, // 약간의 bounce
+            }}
             className="space-y-4"
           >
-            <h1 className="text-6xl md:text-7xl font-black text-white brutal-title tracking-tight">
+            <motion.h1
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={isVisible.title ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+              transition={{
+                delay: 0.1,
+                duration: 0.6,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="text-6xl md:text-7xl font-black text-white brutal-title tracking-tight"
+            >
               🔮 운명가챠
-            </h1>
-            <p className="text-white text-xl md:text-2xl font-bold tracking-wide">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={isVisible.title ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{
+                delay: 0.2,
+                duration: 0.5,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="text-white text-xl md:text-2xl font-bold tracking-wide"
+            >
               2026년, 당신에게 하나의 사건이 일어난다
-            </p>
+            </motion.p>
           </motion.div>
 
           <motion.div
@@ -84,16 +107,26 @@ export default function Home() {
             animate={
               isVisible.form ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
             }
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.7,
+              delay: 0.3,
+              ease: [0.16, 1, 0.3, 1],
+              opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+              y: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }, // ease-in-out
+            }}
           >
             <NameForm />
           </motion.div>
 
           <motion.p
             ref={footerRef}
-            initial={{ opacity: 0 }}
-            animate={isVisible.footer ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={isVisible.footer ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{
+              duration: 0.6,
+              delay: 0.5,
+              ease: [0.16, 1, 0.3, 1],
+            }}
             className="text-white/60 text-sm mt-12"
           >
             made with 💫 by fategacha
