@@ -3,6 +3,41 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* 등급별 CSS 변수 (다크 모드 대비) */
+    --legendary-primary: #22d3ee;
+    --legendary-secondary: #9333ea;
+    --legendary-accent: #ec4899;
+    --legendary-dark-text: #a5f3fc;
+    --legendary-dark-bg: rgba(34, 211, 238, 0.15);
+    --legendary-light-text: #0891b2;
+    --legendary-light-bg: rgba(34, 211, 238, 0.25);
+
+    --divine-primary: #fbbf24;
+    --divine-secondary: #f59e0b;
+    --divine-accent: #f97316;
+    --divine-dark-text: #fde68a;
+    --divine-dark-bg: rgba(251, 191, 36, 0.15);
+    --divine-light-text: #d97706;
+    --divine-light-bg: rgba(251, 191, 36, 0.25);
+
+    --special-primary: #f472b6;
+    --special-secondary: #ec4899;
+    --special-accent: #a855f7;
+    --special-dark-text: #fbcfe8;
+    --special-dark-bg: rgba(244, 114, 182, 0.15);
+    --special-light-text: #db2777;
+    --special-light-bg: rgba(244, 114, 182, 0.25);
+
+    --normal-primary: #c084fc;
+    --normal-secondary: #8b5cf6;
+    --normal-accent: #6366f1;
+    --normal-dark-text: #e9d5ff;
+    --normal-dark-bg: rgba(192, 132, 252, 0.12);
+    --normal-light-text: #7c3aed;
+    --normal-light-bg: rgba(192, 132, 252, 0.2);
+  }
+
   body {
     @apply min-h-screen;
     background: linear-gradient(
@@ -15,6 +50,21 @@
     );
     background-size: 400% 400%;
     animation: gradient-rotate 15s ease infinite;
+  }
+
+  /* 다크 모드 대비 (미디어 쿼리) */
+  @media (prefers-color-scheme: dark) {
+    body {
+      /* 다크 모드에서는 배경을 더 어둡게 */
+      background: linear-gradient(
+        135deg,
+        #581c87 0%,
+        #6b21a8 25%,
+        #7c3aed 50%,
+        #8b5cf6 75%,
+        #9333ea 100%
+      );
+    }
   }
 }
 
