@@ -3,6 +3,8 @@ import ResultClient from './ResultClient'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import BackgroundAnimation from '@/components/BackgroundAnimation'
 
+export const dynamic = 'force-dynamic'
+
 interface ResultPageProps {
   searchParams: { name?: string }
 }
