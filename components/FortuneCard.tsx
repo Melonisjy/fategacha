@@ -206,12 +206,16 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
           count={gradeConfig.particleCount}
           grade={fortune.grade}
         />
-        <motion.div
-          className={`backdrop-blur-md rounded-3xl p-8 border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} relative z-10 bg-gradient-to-br ${gradeConfig.bgGradient} dynamic-gradient neomorphic`}
-          initial={cardAnimation.initial}
-          animate={cardAnimation.animate}
-          transition={cardAnimation.transition}
-        >
+          <motion.div
+            className={`glassmorphism-card rounded-3xl p-8 border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} relative z-10 bg-gradient-to-br ${gradeConfig.bgGradient} dynamic-gradient`}
+            initial={cardAnimation.initial}
+            animate={cardAnimation.animate}
+            transition={cardAnimation.transition}
+            style={{
+              backdropFilter: "blur(25px) saturate(180%)",
+              WebkitBackdropFilter: "blur(25px) saturate(180%)",
+            }}
+          >
           {/* 예언등급표 보기 - 카드 오른쪽 상단 */}
           <div className="absolute top-6 right-6 group">
             <button
@@ -259,7 +263,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
               className="flex items-center justify-center mb-6"
             >
               <motion.div
-                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/25 backdrop-blur-md border-2 ${gradeConfig.borderColor} shadow-lg`}
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full glassmorphism-strong border-2 ${gradeConfig.borderColor} shadow-lg`}
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{
@@ -272,6 +276,10 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
                   type: "spring",
                   stiffness: 200,
                   damping: 15,
+                }}
+                style={{
+                  backdropFilter: "blur(30px) saturate(200%)",
+                  WebkitBackdropFilter: "blur(30px) saturate(200%)",
                 }}
               >
                 <span className="text-2xl">{gradeConfig.icon}</span>
@@ -379,7 +387,11 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             {/* 결과 문장 - 크고 강조 (슬롯머신 효과) */}
             <motion.div
               variants={itemVariants}
-              className={`mt-6 pt-10 pb-10 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} backdrop-blur-sm rounded-3xl border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} overflow-hidden dynamic-gradient-rotate neomorphic-inset relative`}
+              className={`mt-6 pt-10 pb-10 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} rounded-3xl border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} overflow-hidden dynamic-gradient-rotate glassmorphism relative`}
+              style={{
+                backdropFilter: "blur(20px) saturate(180%)",
+                WebkitBackdropFilter: "blur(20px) saturate(180%)",
+              }}
             >
               {/* 장식적 요소 - 별들 */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl">
@@ -506,7 +518,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
           />
           <RippleButton
             onClick={() => router.push("/")}
-            className="w-full px-8 py-5 rounded-2xl neomorphic-button text-white font-black text-xl tracking-wide hover:scale-105 active:scale-95 transition-all"
+            className="w-full px-8 py-5 rounded-2xl glassmorphism-button text-white font-black text-xl tracking-wide hover:scale-105 active:scale-95 transition-all"
           >
             🔮 다시 보기
           </RippleButton>

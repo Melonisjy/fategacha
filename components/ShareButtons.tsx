@@ -48,7 +48,7 @@ export default function ShareButtons({
     <>
       <RippleButton
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-8 py-5 rounded-2xl neomorphic-button text-white font-black text-xl tracking-wide hover:scale-105 active:scale-95 transition-all"
+        className="w-full px-8 py-5 rounded-2xl glassmorphism-button text-white font-black text-xl tracking-wide hover:scale-105 active:scale-95 transition-all"
       >
         📤 공유하기
       </RippleButton>
@@ -67,7 +67,11 @@ export default function ShareButtons({
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="fixed bottom-0 left-0 right-0 z-50 p-6 bg-white/10 backdrop-blur-xl rounded-t-3xl border-t-2 border-white/30"
+              className="fixed bottom-0 left-0 right-0 z-50 p-6 glassmorphism-card rounded-t-3xl border-t-2 border-white/30"
+              style={{
+                backdropFilter: "blur(25px) saturate(180%)",
+                WebkitBackdropFilter: "blur(25px) saturate(180%)",
+              }}
             >
               <div className="max-w-[420px] mx-auto">
                 <div className="text-white text-center mb-4 font-semibold">
@@ -84,7 +88,7 @@ export default function ShareButtons({
                         option.action();
                         setIsOpen(false);
                       }}
-                      className="flex flex-col items-center gap-2 p-4 rounded-xl neomorphic hover:scale-105 transition-all"
+                      className="flex flex-col items-center gap-2 p-4 rounded-xl glassmorphism hover:scale-105 transition-all"
                     >
                       <div
                         className={`w-12 h-12 rounded-full ${option.color} flex items-center justify-center text-2xl`}

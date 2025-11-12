@@ -73,14 +73,28 @@ export default function NameForm() {
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         placeholder="이름을 입력하세요"
-        className="w-full px-6 py-5 rounded-2xl neomorphic text-white placeholder-white/60 text-xl font-bold focus:outline-none transition-all"
+        className="w-full px-6 py-5 rounded-2xl glassmorphism-strong text-white placeholder-white/60 text-xl font-bold focus:outline-none transition-all"
         required
         animate={{
           scale: isFocused ? 1.02 : 1,
+          boxShadow: isFocused
+            ? [
+                "0 12px 40px 0 rgba(0, 0, 0, 0.4), inset 0 2px 0 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 0 rgba(255, 255, 255, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1)",
+                "0 16px 48px 0 rgba(168, 85, 247, 0.3), inset 0 2px 0 0 rgba(255, 255, 255, 0.5), inset 0 -2px 0 0 rgba(255, 255, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.2)",
+                "0 12px 40px 0 rgba(0, 0, 0, 0.4), inset 0 2px 0 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 0 rgba(255, 255, 255, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1)",
+              ]
+            : undefined,
         }}
         transition={{
           duration: 0.2,
           ease: "easeOut",
+          boxShadow: isFocused
+            ? {
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }
+            : undefined,
         }}
       />
       {/* 1~10 숫자 선택 (재미 요소) */}
@@ -111,8 +125,8 @@ export default function NameForm() {
                 onClick={(e) => handleNumberClick(num, e)}
                 className={`px-4 py-3 rounded-xl font-black text-lg transition-all relative overflow-hidden ${
                   isSelected
-                    ? `bg-gradient-to-br ${config.color} text-white border-2 border-white/60 shadow-[0_0_20px_rgba(255,255,255,0.3),inset_0_2px_4px_rgba(255,255,255,0.2)]`
-                    : "neomorphic text-white/60 hover:text-white"
+                    ? `bg-gradient-to-br ${config.color} text-white border-2 border-white/60 shadow-[0_0_20px_rgba(255,255,255,0.3),inset_0_2px_4px_rgba(255,255,255,0.2)] backdrop-blur-md`
+                    : "glassmorphism text-white/60 hover:text-white"
                 }`}
                 whileHover={
                   !isSelected
@@ -204,7 +218,7 @@ export default function NameForm() {
 
       <RippleButton
         type="submit"
-        className={`w-full mt-4 px-8 py-5 rounded-2xl neomorphic-button text-white font-black text-xl tracking-wide hover:scale-105 active:scale-95 transition-all ${
+        className={`w-full mt-4 px-8 py-5 rounded-2xl glassmorphism-button text-white font-black text-xl tracking-wide hover:scale-105 active:scale-95 transition-all ${
           selectedNumber === null ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={selectedNumber === null}
