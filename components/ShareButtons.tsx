@@ -30,17 +30,6 @@ export default function ShareButtons({
       },
     },
     {
-      name: "스크린샷",
-      icon: "📸",
-      color: "bg-green-400",
-      action: () => {
-        if (onScreenshot) {
-          onScreenshot();
-        }
-        onShare("스크린샷");
-      },
-    },
-    {
       name: "복사",
       icon: "📋",
       color: "bg-gray-400",
@@ -84,7 +73,7 @@ export default function ShareButtons({
                 <div className="text-white text-center mb-4 font-semibold">
                   공유하기
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   {shareOptions.map((option, index) => (
                     <motion.button
                       key={option.name}
