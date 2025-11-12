@@ -48,7 +48,7 @@ export default function ShareButtons({
     <>
       <RippleButton
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-8 py-4 rounded-2xl bg-white/30 backdrop-blur-md border-2 border-white/40 text-white font-semibold text-lg shadow-lg hover:bg-white/40 hover:scale-105 active:scale-95 transition-all"
+        className="w-full px-8 py-5 rounded-2xl neomorphic-button text-white font-black text-xl tracking-wide hover:scale-105 active:scale-95 transition-all"
       >
         📤 공유하기
       </RippleButton>
@@ -84,7 +84,7 @@ export default function ShareButtons({
                         option.action();
                         setIsOpen(false);
                       }}
-                      className="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition-all"
+                      className="flex flex-col items-center gap-2 p-4 rounded-xl neomorphic hover:scale-105 transition-all"
                     >
                       <div
                         className={`w-12 h-12 rounded-full ${option.color} flex items-center justify-center text-2xl`}
@@ -105,4 +105,3 @@ export default function ShareButtons({
     </>
   );
 }
-

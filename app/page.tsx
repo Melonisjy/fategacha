@@ -70,10 +70,10 @@ export default function Home() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="space-y-4"
           >
-            <h1 className="text-5xl font-bold text-white drop-shadow-lg">
+            <h1 className="text-6xl md:text-7xl font-black text-white brutal-title tracking-tight">
               🔮 운명가챠
             </h1>
-            <p className="text-purple-100 text-lg">
+            <p className="text-white text-xl md:text-2xl font-bold tracking-wide">
               2026년, 당신에게 하나의 사건이 일어난다
             </p>
           </motion.div>

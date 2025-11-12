@@ -207,7 +207,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
           grade={fortune.grade}
         />
         <motion.div
-          className={`backdrop-blur-md rounded-2xl p-8 border-2 ${gradeConfig.borderColor} ${gradeConfig.glowColor} relative z-10 bg-gradient-to-br ${gradeConfig.bgGradient}`}
+          className={`backdrop-blur-md rounded-3xl p-8 border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} relative z-10 bg-gradient-to-br ${gradeConfig.bgGradient} dynamic-gradient neomorphic`}
           initial={cardAnimation.initial}
           animate={cardAnimation.animate}
           transition={cardAnimation.transition}
@@ -283,7 +283,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
 
             <motion.h2
               variants={itemVariants}
-              className={`${gradeConfig.color} text-2xl font-bold text-center mb-8 drop-shadow-lg`}
+              className={`${gradeConfig.color} text-3xl md:text-4xl font-black text-center mb-8 tracking-tight brutal-text`}
             >
               {name}님의 2026 운명
             </motion.h2>
@@ -379,12 +379,12 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
             {/* 결과 문장 - 크고 강조 (슬롯머신 효과) */}
             <motion.div
               variants={itemVariants}
-              className={`mt-6 pt-8 pb-8 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} backdrop-blur-sm rounded-2xl border ${gradeConfig.borderColor} ${gradeConfig.glowColor} overflow-hidden`}
+              className={`mt-6 pt-8 pb-8 px-6 bg-gradient-to-br ${gradeConfig.bgGradient} backdrop-blur-sm rounded-3xl border-4 ${gradeConfig.borderColor} ${gradeConfig.glowColor} overflow-hidden dynamic-gradient-rotate neomorphic-inset`}
             >
               <AnimatePresence mode="wait">
                 <motion.p
                   key={slotMachineText || fortune.event}
-                  className={`${gradeConfig.color} text-2xl md:text-3xl font-bold leading-relaxed drop-shadow-lg text-center min-h-[120px] flex items-center justify-center`}
+                  className={`${gradeConfig.color} text-3xl md:text-4xl font-black leading-relaxed text-center min-h-[120px] flex items-center justify-center tracking-tight`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{
                     opacity: 1,
@@ -441,7 +441,7 @@ export default function FortuneCard({ name, fortune }: FortuneCardProps) {
           />
           <RippleButton
             onClick={() => router.push("/")}
-            className="w-full px-8 py-4 rounded-2xl bg-white/20 backdrop-blur-md border-2 border-white/30 text-white font-semibold text-lg shadow-lg hover:bg-white/30 hover:scale-105 active:scale-95 transition-all"
+            className="w-full px-8 py-5 rounded-2xl neomorphic-button text-white font-black text-xl tracking-wide hover:scale-105 active:scale-95 transition-all"
           >
             🔮 다시 보기
           </RippleButton>

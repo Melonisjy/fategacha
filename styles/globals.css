@@ -4,8 +4,105 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-purple-600 via-purple-500 to-blue-600 min-h-screen;
+    @apply min-h-screen;
+    background: linear-gradient(
+      135deg,
+      #9333ea 0%,
+      #7c3aed 25%,
+      #6366f1 50%,
+      #8b5cf6 75%,
+      #a855f7 100%
+    );
+    background-size: 400% 400%;
+    animation: gradient-rotate 15s ease infinite;
   }
+}
+
+/* 브루탈리즘: 대담한 타이포그래피 */
+@layer utilities {
+  .brutal-text {
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .brutal-title {
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* 네오모피즘 효과 */
+.neomorphic {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.2),
+    -8px -8px 16px rgba(255, 255, 255, 0.1),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.neomorphic-inset {
+  background: linear-gradient(
+    145deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
+  box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.3),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.1);
+}
+
+.neomorphic-button {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05)
+  );
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.25),
+    -6px -6px 12px rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.neomorphic-button:active {
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* 역동적인 그라데이션 애니메이션 */
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.dynamic-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.dynamic-gradient-rotate {
+  background-size: 400% 400%;
+  animation: gradient-rotate 10s ease infinite;
 }
 
 /* 눈 내리는 애니메이션 */
@@ -36,7 +133,8 @@
 
 /* 별 반짝임 애니메이션 */
 @keyframes twinkle {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }
@@ -74,4 +172,3 @@
   perspective: 1000px;
   transform-style: preserve-3d;
 }
-
