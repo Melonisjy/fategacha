@@ -19,7 +19,7 @@ export default function ResultContent({ name }: ResultContentProps) {
       const randomFortune = getRandomFortune()
       setFortune(randomFortune)
       setIsLoading(false)
-    }, 1500) // 1.5초 로딩
+    }, 2400) // 2.4초 로딩 (0.8초 × 3단계)
 
     return () => clearTimeout(timer)
   }, [])
