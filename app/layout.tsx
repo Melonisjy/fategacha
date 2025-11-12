@@ -1,15 +1,10 @@
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 import '../styles/globals.css'
 
 export const metadata: Metadata = {
   title: '운명가챠',
   description: '2026년, 당신에게 하나의 사건이 일어난다',
-}
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
 }
 
 export default function RootLayout({
